@@ -8,6 +8,7 @@ Train a deep neural network to drive a car like you! The team at Udacity have bu
 ## Requirements
 
 To be able to successfully execute the code in this project you might require the following libraries, packages and  data.
+
 1. [Anaconda Python 3.5](https://www.continuum.io/downloads)
 2. [Keras](https://keras.io/)
 3. [OpenCV](https://anaconda.org/menpo/opencv3)
@@ -46,7 +47,7 @@ data
 ## Data Analysis
 
 All the images recorded by the simulator are in the *`.jpg`* format with the following dimensions *`160 X 320 X 3`*. The log file `driving_log.csv` contains the following columns `[center, left, right, steering, throttle, brake, speed]` the values of interest are `[center, left, right, steering]` the first three columns contain the paths of the image files usually in the `IMG` subdirectory and the `steering` column contains the steering angle.
-It must be noted that the data was collected in this project by recording seperate instances of recovery driving coupled with the Udacity [dataset](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip).
+It must be noted that the data was collected in this project by recording seperate instances of recovery driving coupled with the Udacity [dataset](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip). The entire dataset can be downloaded from [here](https://drive.google.com/file/d/0B94J1XBB-7XKeUpSQ2JvTnIxblk/view?usp=sharing)
 It was noticed that the steering angles were normalized between -1 and 1 with -1 indicating 25&deg; `left` and 1 indicating 25&deg; `right`. Furthermore, Most of the steering angles are zeros since the recording was done using a keyboard. This was however handled in the data pre-processing step to a small extent.
 
 ## Data Pre-Processing
