@@ -58,8 +58,13 @@ It was noticed that the steering angles were normalized between -1 and 1 with -1
 
 ## Data Visualization
 
-The following are the images for the left, right and center from the original dataset.
-![left](samples/left_2016_12_01_13_30_48_287.jpg), ![center](samples/center_2016_12_01_13_30_48_287.jpg), ![right](samples/right_2016_12_01_13_30_48_287.jpg)
+The following are the images for the left, right and center from the original dataset.:
+
+Left ![left](samples/left_2016_12_01_13_30_48_287.jpg)
+
+Center ![center](samples/center_2016_12_01_13_30_48_287.jpg)
+
+Right ![right](samples/right_2016_12_01_13_30_48_287.jpg)
 
 ## Data Pre-Processing
 
@@ -71,8 +76,13 @@ Additionally, we crop the image to remove `20%` of the image from the top and th
 
 Most of these are performed in the `utils.py` module and imported in the `model.py` and `drive.py` modules.
 
-Post pre-processing, above sample images look as follows.
-![left](samples/pre_processed_left.jpg), ![center](samples/pre_processed_center.jpg), ![right](samples/pre_processed_right.jpg)
+Post pre-processing, above sample images look as follows:
+
+Left: ![left](samples/pre_processed_left.jpg)
+
+Center: ![center](samples/pre_processed_center.jpg)
+
+Right: ![right](samples/pre_processed_right.jpg)
 
 
 ## Implementation
