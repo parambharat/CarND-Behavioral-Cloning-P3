@@ -1,9 +1,11 @@
 
 # Behaviour Cloning
 
+
 ## Problem Statement
 
 Train a deep neural network to drive a car like you! The team at Udacity have built a simulator for students to be able to drive and record data from the simulator. The data is collected in the form of a driving log and images. Images are recorded at 10hz with cameras in the left, center and right. Each set of images contains a corresponding steering angle in the driving. In this project we build a framework consisting of a Convolution Neural Network to predict the steering angle given the image of the road from the dashboard of a car.
+
 
 ## Requirements
 
@@ -19,6 +21,7 @@ To be able to successfully execute the code in this project you might require th
 8. [h5py](https://anaconda.org/conda-forge/h5py)
 9. The simulator - [linux](https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f0f7_simulator-linux/simulator-linux.zip), [macOS](https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f290_simulator-macos/simulator-macos.zip), [windows 32](https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f4b6_simulator-windows-32/simulator-windows-32.zip), [windows 64](https://d17h27t6h515a5.cloudfront.net/topher/2016/November/5831f3a4_simulator-windows-64/simulator-windows-64.zip)
 10. [The data](https://drive.google.com/open?id=0B94J1XBB-7XKeUpSQ2JvTnIxblk)
+
 
 ## Project Structure
 
@@ -36,6 +39,7 @@ The below tree represents the project structure and all the necessary files and 
 
 Ensure that the data is present in the `data` folder with the following prefix `data` and contains the data from the simulator. For instance, if you have the dataset from udacity rename the directory as `data_udacity` it should have the following structure.
 
+
 ```
 data
 │
@@ -44,11 +48,18 @@ data
     └── IMG
 ```
 
+
 ## Data Analysis
 
 All the images recorded by the simulator are in the *`.jpg`* format with the following dimensions *`160 X 320 X 3`*. The log file `driving_log.csv` contains the following columns `[center, left, right, steering, throttle, brake, speed]` the values of interest are `[center, left, right, steering]` the first three columns contain the paths of the image files usually in the `IMG` subdirectory and the `steering` column contains the steering angle.
 It must be noted that the data was collected in this project by recording seperate instances of recovery driving coupled with the Udacity [dataset](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip). The entire dataset can be downloaded from [here](https://drive.google.com/file/d/0B94J1XBB-7XKeUpSQ2JvTnIxblk/view?usp=sharing)
 It was noticed that the steering angles were normalized between -1 and 1 with -1 indicating 25&deg; `left` and 1 indicating 25&deg; `right`. Furthermore, Most of the steering angles are zeros since the recording was done using a keyboard. This was however handled in the data pre-processing step to a small extent.
+
+
+## Data Visualization
+
+The following are the images for the left, right and center from the original dataset.
+[left](samples/left_2016_12_01_13_30_48_287.jpg), [center](samples/center_2016_12_01_13_30_48_287.jpg), [right](samples/right_2016_12_01_13_30_48_287.jpg)
 
 ## Data Pre-Processing
 
@@ -59,6 +70,10 @@ One simple augmentation we could apply is  to use the `left` and `right` images 
 Additionally, we crop the image to remove `20%` of the image from the top and the bottom and downsample it to `32 x 32 x 3` this shape make the images more manageable and the neural network memory efficient to train and predict. While we would like to normalize the images at this point this is done in a layer in the neural network to take advantage of the GPU while training.
 
 Most of these are performed in the `utils.py` module and imported in the `model.py` and `drive.py` modules.
+
+Post pre-processing, above sample images look as follows.
+[left](samples/pre_processed_left.jpg), [center](samples/pre_processed_center.jpg), [right](samples/pre_processed_right.jpg)
+
 
 ## Implementation
 
@@ -82,14 +97,20 @@ As discussed we implement a convolution neural network in this project. This is 
 11. Dropout - probability 0.5
 12. Fully Connected layer = 128 Neurons, activation=elu.
 13. Dropout - probability 0.5
-12. Fully Connected layer = 32 Neurons, activation=elu.
-12. Fully Connected layer = 1 Neuron, activation=None.
+14. Fully Connected layer = 32 Neurons, activation=elu.
+15. Fully Connected layer = 1 Neuron, activation=None.
 
 The above model was built in keras. The loss is defined to be `mean squared error` and the model is compiled with the `Adam Optimizer` with a default learning rate of `1e-4` that drops when there is no change in the validation accuracy between epochs. [Checkpoints](https://github.com/fchollet/keras/blob/master/keras/callbacks.py#L220) are created using keras [callbacks](https://keras.io/callbacks/) and stores the models when the validation accuracy is at it's best.
 
 The model is trained with a mini-batch-size of `250` at `50,000` samples per epoch for `10 epochs`. Any further increase in epochs did not prove to be highly beneficial. Considering that the time for running each epoch is approximately 20 seconds a few more epochs of training didn't hurt.
 
 Finally, the model and its associated weights are stored in the `model` directory of the project root. The `model/model.json` is passed as an argument to the `drive.py` file while running it.
+
+
+## Improvements
+
+I initally used the [NVIDIA model](https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/) and the [comma.ai](https://github.com/commaai/research/blob/master/train_steering_model.py) models. These were used as baselines to first collect enough data for these models to perfom marginally well. As soon as these models began performing reasonably I stopped collecting more data and switched to a model fashioned from the architecture used for the traffic sign classification task in [project 2](https://github.com/parambharat/traffic-signs). However, the architecture was modified to include more fully connected layers and changes to the activation function (ELU from RELU in the existing architecture) to suit the regression task. These were the only modifications and improvements made to the model before it bagan performing well on both tracks 1 and 2.
+
 
 ## Results
 
